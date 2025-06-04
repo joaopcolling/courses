@@ -8,6 +8,4 @@ import com.rockeseat.courses.modules.courses.entities.CourseEntity;
 
 public interface CourseRepository extends JpaRepository<CourseEntity, UUID> {
 
-    Boolean findActiveById(UUID id);
-    
 }
