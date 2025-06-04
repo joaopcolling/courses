@@ -1,5 +1,6 @@
 package com.rockeseat.courses.modules.courses.service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.rockeseat.courses.modules.courses.dtos.CourseDTO;
 import com.rockeseat.courses.modules.courses.dtos.SaveCourseDTO;
 import com.rockeseat.courses.modules.courses.entities.CourseEntity;
+import com.rockeseat.courses.modules.courses.enums.CourseStatus;
 import com.rockeseat.courses.modules.courses.mappers.CourseMapper;
 import com.rockeseat.courses.modules.courses.repositories.CourseRepository;
 
@@ -21,9 +23,13 @@ public class UpdateCourseService {
     private final CourseMapper mapper;
 
     public CourseDTO execute(UUID id, SaveCourseDTO dto){
-        CourseEntity entity = mapper.mapSaveCourseDTOToEntity(dto);
-        
-        entity.setId(id);
+
+        Optional<CourseEntity> optEntity = repository.findById(id);
+        CourseEntity entity = optEntity.get();
+
+        entity.setName(dto.getName());
+        entity.setCategory(dto.getCategory());
+        entity.setStatus(CourseStatus.fromString(dto.getStatus()));
 
         repository.save(entity);
         

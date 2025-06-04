@@ -12,4 +12,6 @@ public class SaveCourseDTO {
 
     private String category;
 
+    private String status;
+
 }

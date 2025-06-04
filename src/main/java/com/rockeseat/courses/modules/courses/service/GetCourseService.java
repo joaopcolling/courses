@@ -23,7 +23,7 @@ public class GetCourseService {
     public CourseDTO execute(UUID id){
 
         Optional<CourseEntity> entity = repository.findById(id);
-        
+
         return mapper.mapEntityToCourseDTO(entity.get());
     }
 }

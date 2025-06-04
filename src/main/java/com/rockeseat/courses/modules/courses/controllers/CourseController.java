@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rockeseat.courses.modules.courses.dtos.CourseDTO;
 import com.rockeseat.courses.modules.courses.dtos.SaveCourseDTO;
 import com.rockeseat.courses.modules.courses.service.CreateCourseService;
+import com.rockeseat.courses.modules.courses.service.DeleteCourseService;
 import com.rockeseat.courses.modules.courses.service.GetCourseService;
 import com.rockeseat.courses.modules.courses.service.ListCourseService;
 import com.rockeseat.courses.modules.courses.service.UpdateCourseService;
@@ -35,7 +37,9 @@ public class CourseController {
 
     private final ListCourseService listCourseService;
 
-    @GetMapping("{id}")
+    private final DeleteCourseService deleteCourseService;
+
+    @GetMapping("/{id}")
     public ResponseEntity<CourseDTO> get(@PathVariable UUID id) {
         CourseDTO dto = getCourseService.execute(id);
         return ResponseEntity.status(HttpStatus.OK).body(dto);
@@ -47,16 +51,23 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
     
+    
     @PostMapping
     public ResponseEntity<CourseDTO> create(@RequestBody SaveCourseDTO saveDto) {
         CourseDTO dto = createCourseService.execute(saveDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
-    @PutMapping("path/{id}")
-    public ResponseEntity<CourseDTO> putMethodName(@PathVariable UUID id, @RequestBody SaveCourseDTO saveDto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<CourseDTO> update(@PathVariable UUID id, @RequestBody SaveCourseDTO saveDto) {
         CourseDTO dto = updateCourseService.execute(id, saveDto);
         return ResponseEntity.status(HttpStatus.OK).body(dto);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> delete(@PathVariable UUID id){
+        deleteCourseService.execute(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
     
 }
