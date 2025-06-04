@@ -22,7 +22,7 @@ public class GetCourseStatusService {
             repository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Course not found."));
 
-        return entity.getStatus().getStatus(); 
+        return entity.getStatus() != null ? entity.getStatus().getStatus() : null;
     }
     
 }
